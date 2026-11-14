@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Weenix · Christopher Yarbro</title>
+  <meta name="description" content="Weenix: a UNIX-like operating system kernel written in C.">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main>
+  <a class="back" href="/">← Christopher Yarbro</a>
+  <h1>Weenix</h1>
+  <p class="lead">A UNIX-like operating system kernel in C, built up from a bare skeleton to one that runs a shell and user programs.</p>
+  <div class="meta"><span>C</span><span>Operating Systems course</span><span>Code private (course policy)</span></div>
+
+  <p>Weenix is the teaching kernel from Brown University's operating systems course. The skeleton boots; everything that makes it an operating system is written by the student. Course policy keeps the code private, so this page describes the design instead.</p>
+
+  <h2>Processes and threads</h2>
+  <p>Process creation and teardown, kernel threads, a cooperative scheduler with run queues, and the synchronization primitives everything else builds on: mutexes and wait queues.</p>
+
+  <h2>Drivers</h2>
+  <p>A TTY driver with line discipline for terminal input, plus the block and memory device interfaces the filesystem sits on.</p>
+
+  <h2>Virtual file system</h2>
+  <p>The VFS layer gives every filesystem the same interface: vnodes, path resolution, file descriptors, and the system calls on top of them (<code>open</code>, <code>read</code>, <code>write</code>, <code>mkdir</code>, <code>link</code>, <code>rename</code>, and so on).</p>
+
+  <h2>System V filesystem</h2>
+  <p>An on-disk filesystem (S5FS) under the VFS: inodes, direct and indirect blocks, directories, with disk blocks cached in memory between the filesystem and the disk driver.</p>
+
+  <h2>Virtual memory</h2>
+  <p>Per-process address spaces, page-fault handling, <code>mmap</code>, and <code>fork</code> with copy-on-write through shadow memory objects, so a forked child shares pages with its parent until one of them writes.</p>
+
+  <!-- TODO: add the hardest bug you hit and how you found it. One concrete story is worth more than this whole page. -->
+
+  <footer><a href="/">← Back</a></footer>
+</main>
+</body>
+</html>

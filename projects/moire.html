@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moire · Christopher Yarbro</title>
+  <meta name="description" content="Moire: a low-cost LoRa soil-moisture sensor network deployed in Ecuador.">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main>
+  <a class="back" href="/">← Christopher Yarbro</a>
+  <h1>Moire</h1>
+  <p class="lead">A low-cost soil-moisture sensor network for reforestation research, running on a LoRa mesh in the Ecuadorian Andes.</p>
+  <div class="meta"><span>Senior capstone, Tulane 2025–26</span><span>Firmware, with Lakeland Galinson and Joshua Allison</span><span><a href="https://github.com/moire-cs/firmware">Source</a></span><span><a href="/img/moire-poster.jpg">Poster</a></span></div>
+
+  <div class="facts">
+    <div><strong>25</strong>nodes deployed</div>
+    <div><strong>6 months</strong>longest unattended run</div>
+    <div><strong>$3,000</strong>URAF research grant</div>
+    <div><strong>Best Project</strong>2026 SSE Expo</div>
+  </div>
+
+  <figure>
+    <img src="/img/node.jpg" alt="A white 3D-printed Moire sensor node with an antenna, sitting in leaf litter next to its soil-moisture probe" width="1100" height="940">
+    <figcaption>A Moire node (without solar panel): 3D-printed enclosure, LoRa antenna, next to a bare node.</figcaption>
+  </figure>
+
+  <h2>The problem</h2>
+  <p>Researchers at the <a href="https://www.fcat-ecuador.org/">FCAT</a> reserve in Ecuador (Fundación para la Conservación de los Andes Tropicales) want to know which conditions help reforested seedlings survive. That needs soil-moisture, temperature, humidity, and light readings from many points across steep, forested terrain with no cell coverage and no power, on a student budget. Today that data is collected by hand, daily.</p>
+  <figure>
+    <img src="/img/fcat-team.jpg" alt="Five people in boots standing in a reforestation plot at the FCAT reserve in Ecuador" width="1400" height="788" loading="lazy">
+    <figcaption>At the FCAT reforestation site in Ecuador.</figcaption>
+  </figure>
+
+  <h2>The system</h2>
+  <figure>
+    <svg class="wide" viewBox="0 0 680 150" role="img" aria-label="Sensor nodes send readings over a LoRa mesh, through routers, to a gateway that feeds the monitoring platform">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+        </marker>
+      </defs>
+      <g fill="none" stroke="currentColor" stroke-width="1.25" style="color: var(--muted)">
+        <rect x="4" y="34" width="150" height="82" rx="2"/>
+        <rect x="184" y="34" width="140" height="82" rx="2"/>
+        <rect x="354" y="34" width="140" height="82" rx="2"/>
+        <rect x="524" y="34" width="152" height="82" rx="2" style="color: var(--accent)" stroke-width="2"/>
+        <path d="M154 75H182" marker-end="url(#arr)"/>
+        <path d="M324 75H352" marker-end="url(#arr)"/>
+        <path d="M494 75H522" marker-end="url(#arr)"/>
+      </g>
+      <g font-family="system-ui, sans-serif" fill="var(--fg)" text-anchor="middle">
+        <text x="79" y="62" font-size="14" font-weight="600">Sensor nodes</text>
+        <text x="79" y="82" font-size="11.5" fill="var(--muted)">Heltec T114 + sensors</text>
+        <text x="79" y="98" font-size="11.5" fill="var(--muted)">solar, mostly asleep</text>
+        <text x="254" y="62" font-size="14" font-weight="600">Routers</text>
+        <text x="254" y="82" font-size="11.5" fill="var(--muted)">rebroadcast over</text>
+        <text x="254" y="98" font-size="11.5" fill="var(--muted)">the LoRa mesh</text>
+        <text x="424" y="62" font-size="14" font-weight="600">Gateway</text>
+        <text x="424" y="82" font-size="11.5" fill="var(--muted)">collects readings,</text>
+        <text x="424" y="98" font-size="11.5" fill="var(--muted)">sets sleep schedule</text>
+        <text x="600" y="62" font-size="14" font-weight="600">Platform</text>
+        <text x="600" y="82" font-size="11.5" fill="var(--muted)">Intel NUC: React,</text>
+        <text x="600" y="98" font-size="11.5" fill="var(--muted)">Express, MySQL</text>
+      </g>
+    </svg>
+    <svg class="tall" viewBox="0 0 320 420" role="img" aria-label="Sensor nodes send readings over a LoRa mesh, through routers, to a gateway that feeds the monitoring platform" font-family="system-ui, sans-serif"><defs><marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs><rect x="20" y="8" width="280" height="76" rx="2" fill="none" stroke="var(--muted)" stroke-width="1.25"/><text x="160" y="36" font-size="15" font-weight="600" text-anchor="middle" fill="var(--fg)">Sensor nodes</text><text x="160" y="58" font-size="13" text-anchor="middle" fill="var(--muted)">Heltec T114, solar powered</text><path d="M160 84V110" stroke="var(--muted)" stroke-width="1.25" marker-end="url(#arr2)"/><rect x="20" y="112" width="280" height="76" rx="2" fill="none" stroke="var(--muted)" stroke-width="1.25"/><text x="160" y="140" font-size="15" font-weight="600" text-anchor="middle" fill="var(--fg)">Routers</text><text x="160" y="162" font-size="13" text-anchor="middle" fill="var(--muted)">rebroadcast over the LoRa mesh</text><path d="M160 188V214" stroke="var(--muted)" stroke-width="1.25" marker-end="url(#arr2)"/><rect x="20" y="216" width="280" height="76" rx="2" fill="none" stroke="var(--muted)" stroke-width="1.25"/><text x="160" y="244" font-size="15" font-weight="600" text-anchor="middle" fill="var(--fg)">Gateway</text><text x="160" y="266" font-size="13" text-anchor="middle" fill="var(--muted)">collects readings, sets sleep schedule</text><path d="M160 292V318" stroke="var(--muted)" stroke-width="1.25" marker-end="url(#arr2)"/><rect x="20" y="320" width="280" height="76" rx="2" fill="none" stroke="var(--accent)" stroke-width="2"/><text x="160" y="348" font-size="15" font-weight="600" text-anchor="middle" fill="var(--fg)">Platform</text><text x="160" y="370" font-size="13" text-anchor="middle" fill="var(--muted)">Intel NUC: React, Express, MySQL</text></svg>
+    <figcaption>Readings hop across the mesh to a gateway; the gateway also sends the sleep schedule back out.</figcaption>
+  </figure>
+  <p>Each sensor node is a Heltec T114 (nRF52840 with a LoRa radio) carrying our custom sensor daughter board: a TI HDC1080 for temperature and humidity, a TI OPT3001 for light, and a capacitive soil-moisture probe that reports moisture as a pulse frequency. A 5 V solar panel charges a 950 mAh LiPo. The 3D-printed PETG enclosure is sealed with a rubber gasket, with a PTFE vent that lets light and humidity reach the sensors while keeping water out.</p>
+  <p>Nodes run a fork of <a href="https://github.com/meshtastic/firmware">Meshtastic</a>, so readings can hop through other nodes and dedicated routers to reach the gateway. The gateway is another T114, connected over USB serial to an Intel NUC that parses incoming packets into MySQL and serves the web dashboard (React, Express).</p>
+  <figure>
+    <img src="/img/dashboard-fcat.jpg" alt="Moire dashboard showing node markers on satellite imagery of the FCAT site, with the latest soil moisture, temperature, humidity, and light readings for a plot" width="800" height="452" loading="lazy">
+    <figcaption>The dashboard at FCAT: each marker is a node on its plot, with its latest readings below.</figcaption>
+  </figure>
+
+  <h2>What I built</h2>
+  <p>I wrote most of the firmware. Most of the work was turning a general-purpose mesh messenger into something that could sleep in the mud for months.</p>
+  <ul>
+    <li><strong>Sleep scheduling over the mesh.</strong> The gateway broadcasts the sleep interval, so the schedule can change in the field without touching a node. Nodes wake, take a reading, transmit, stay awake briefly to relay, and go back to sleep.</li>
+    <li><strong>Collision avoidance.</strong> Nodes woken by the same broadcast all wanted to transmit at once. Each node now waits a random 0–3 seconds before sending.</li>
+    <li><strong>Range tuning.</strong> Tested LoRa presets (Long Slow, then Long Moderate) and raised the hop limit to reach nodes deep in the forest.</li>
+    <li><strong>Power.</strong> Stripped unused Meshtastic modules from sensor-node builds, turned off the heartbeat LED, and report battery percentage over the mesh.</li>
+    <li><strong>Hardware pulse counting.</strong> The moisture probe outputs a frequency. I built a counter from nRF52 peripherals that measures it with zero CPU involvement, later open-sourced as <a href="/projects/nrf-pcnt.html">nrf_pcnt</a>.</li>
+    <li><strong>Separate builds per role:</strong> sensor node, router, and gateway.</li>
+  </ul>
+
+  <h2>Results</h2>
+  <p>Before Ecuador, the system ran in a deployment with the City of New Orleans at city-maintained cemeteries. We then deployed 25 nodes at FCAT. The longest-running nodes operated for six months without maintenance, sending real-time environmental data to researchers.</p>
+  <!-- TODO: what caused the early failures, and what the next revision changes -->
+  <figure>
+    <img src="/img/temperature.jpg" alt="Line chart of one node's temperature from October 1 to October 25, 2026, showing a daily cycle between about 22 and 38 degrees Celsius" width="1400" height="801" loading="lazy">
+    <figcaption>One FCAT node's temperature through October 2026, reported for weeks without anyone visiting it.</figcaption>
+  </figure>
+  <p>A new student team is continuing the project in 2026–27, and I'm advising them.</p>
+
+  <footer><a href="/">← Back</a></footer>
+</main>
+</body>
+</html>

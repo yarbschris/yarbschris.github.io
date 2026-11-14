@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Traintime · Christopher Yarbro</title>
+  <meta name="description" content="Traintime: live train arrivals from GTFS-Realtime feeds, in Rust.">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main>
+  <a class="back" href="/">← Christopher Yarbro</a>
+  <h1>Traintime</h1>
+  <p class="lead">Live train arrivals for a display on my wall, built to learn Rust properly.</p>
+  <div class="meta"><span>Rust · tokio</span><span>In progress</span><span><a href="https://github.com/yarbschris/Traintime">Source</a></span></div>
+
+  <h2>What it does</h2>
+  <p>Pick a transit system and a station. Traintime downloads the system's static GTFS schedule, polls its GTFS-Realtime feeds, and emits a stream of compact arrival packets: line, destination, minutes until arrival, and delay. Systems are defined in YAML, and NYC Subway, MBTA, and Metro-North are configured today.</p>
+
+  <h2>Design</h2>
+  <ul>
+    <li><strong>One station, many stop IDs.</strong> Transit agencies often split one physical station into several stop IDs, by platform or by line. Traintime groups them with a disjoint-set built from transfer and name data, so picking "Times Sq" covers every platform.</li>
+    <li><strong>Filtering early.</strong> Irrelevant transfers are dropped before they're loaded into memory. Canceled trips, skipped stops, and trains terminating at your station never become packets.</li>
+    <li><strong>No panics.</strong> Outside tests, Clippy denies <code>unwrap</code>, <code>expect</code>, and <code>panic!</code>.</li>
+    <li><strong>Workspace layout.</strong> A library crate holds the server logic and a thin CLI crate sits on top. Integration tests run against recorded feed data, and CI builds, lints, and tests every push.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p>Moving the display onto a microcontroller. The packet type moves into a shared <code>no_std</code> crate used by both the server and the firmware, and the firmware gets its own SPI display driver.</p>
+  <!-- TODO: photo of the display once it's running -->
+
+  <footer><a href="/">← Back</a></footer>
+</main>
+</body>
+</html>

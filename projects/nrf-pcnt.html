@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>nrf_pcnt · Christopher Yarbro</title>
+  <meta name="description" content="nrf_pcnt: a zero-CPU hardware pulse counter for the nRF52.">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main>
+  <a class="back" href="/">← Christopher Yarbro</a>
+  <h1>nrf_pcnt</h1>
+  <p class="lead">A hardware pulse counter for the nRF52, built from parts on the chip. It counts without CPU intervention.</p>
+  <div class="meta"><span>C · nrfx 2.x and 3.x</span><span>Apache 2.0</span><span><a href="https://github.com/yarbschris/nrf_pcnt">Source</a></span></div>
+
+  <h2>Why</h2>
+  <p>Moire's soil-moisture probe reports moisture as a frequency, so measuring it means counting pulses over a fixed window. The ESP32 has a pulse-counter peripheral for this; the nRF52 doesn't. Counting in an interrupt handler would wake the CPU on every pulse, which defeats the point of a node that is supposed to spend most of its life asleep.</p>
+
+  <h2>How it works</h2>
+  <p>The nRF52's Programmable Peripheral Interconnect (PPI) wires one peripheral's event directly to another peripheral's task, with no CPU in between. Two PPI channels and two timers make a gated counter:</p>
+<pre><code>Pulse pin ──► GPIOTE IN event ──PPI──► TIMER2 COUNT task      (counter, 32-bit)
+TIMER3 COMPARE[1] event ──────PPI──► TIMER2 CAPTURE[0] task   (gate, 1 MHz)</code></pre>
+  <ol>
+    <li><strong>GPIOTE</strong> raises an event on each falling edge of the pulse pin.</li>
+    <li><strong>PPI</strong> routes that event to TIMER2's <code>COUNT</code> task. TIMER2 runs in counter mode, so each pulse increments it in hardware.</li>
+    <li><strong>TIMER3</strong> runs at 1 MHz with a compare value equal to the measurement window.</li>
+    <li>When the window ends, a second <strong>PPI</strong> channel fires TIMER2's <code>CAPTURE</code> task, latching the count into a register.</li>
+  </ol>
+  <p>After setup the CPU does nothing. Reading the result is one register read whenever the application next wakes up.</p>
+
+  <h2>API</h2>
+<pre><code>nrfx_err_t pcntInit(int pin, uint16_t measureTimeMs);
+void       pcntClearCounter(void);   // reset the count
+void       pcntClearTimer(void);     // restart the window
+uint32_t   pcntGetCount(void);       // count latched at end of window</code></pre>
+
+  <h2>Notes</h2>
+  <ul>
+    <li>Two versions: one for nrfx 2.x (Arduino/PlatformIO, as used in Moire) and one for nrfx 3.x (nRF Connect SDK / Zephyr), with a Zephyr example for the nRF52840 DK.</li>
+    <li>Uses TIMER2 and TIMER3 because TIMER0 is commonly reserved by the radio stack.</li>
+    <li>Both timers are 32-bit, so the count can't wrap during any realistic window.</li>
+  </ul>
+
+  <footer><a href="/">← Back</a></footer>
+</main>
+</body>
+</html>
