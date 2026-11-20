@@ -69,6 +69,10 @@
     <figcaption>Readings hop across the mesh to a gateway; the gateway also sends the sleep schedule back out.</figcaption>
   </figure>
   <p>Each sensor node is a Heltec T114 (nRF52840 with a LoRa radio) carrying our custom sensor daughter board: a TI HDC1080 for temperature and humidity, a TI OPT3001 for light, and a capacitive soil-moisture probe that reports moisture as a pulse frequency. A 5 V solar panel charges a 950 mAh LiPo. The 3D-printed PETG enclosure is sealed with a rubber gasket, with a PTFE vent that lets light and humidity reach the sensors while keeping water out.</p>
+  <figure>
+    <img src="/img/assembled-nodes.jpg" alt="Sixteen fully assembled Moire sensor nodes laid out on a granite counter, each with its white enclosure, antenna, solar panel, and Moiré-branded soil probe" width="1400" height="1053" loading="lazy">
+    <figcaption>Sixteen fully assembled nodes, ready for deployment.</figcaption>
+  </figure>
   <p>Nodes run a fork of <a href="https://github.com/meshtastic/firmware">Meshtastic</a>, so readings can hop through other nodes and dedicated routers to reach the gateway. The gateway is another T114, connected over USB serial to an Intel NUC that parses incoming packets into MySQL and serves the web dashboard (React, Express).</p>
   <figure>
     <img src="/img/dashboard-fcat.jpg" alt="Moire dashboard showing node markers on satellite imagery of the FCAT site, with the latest soil moisture, temperature, humidity, and light readings for a plot" width="800" height="452" loading="lazy">
